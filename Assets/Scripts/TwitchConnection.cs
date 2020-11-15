@@ -55,7 +55,7 @@ public class TwitchConnection : MonoBehaviour
     private void OnGiftedSubscription(object sender, OnGiftedSubscriptionArgs e)
     {
         AddDebugLine(
-            $"Gift subscription recieve {e.GiftedSubscription.MsgParamRecipientUserName} from {e.GiftedSubscription.Id}");
+            $"Gift subscription received {e.GiftedSubscription.MsgParamRecipientUserName} from {e.GiftedSubscription.Id}");
 
         AddDebugLine($"{e.GiftedSubscription.Id} " +
                      $"/ {e.GiftedSubscription.Login} " +
@@ -70,7 +70,7 @@ public class TwitchConnection : MonoBehaviour
     {
         try
         {
-            AddDebugLine($"The bot {e.BotUsername} succesfully connected to Twitch.");
+            AddDebugLine($"The bot {e.BotUsername} successfully connected to Twitch.");
 
             if (string.IsNullOrWhiteSpace(e.AutoJoinChannel))
             {
