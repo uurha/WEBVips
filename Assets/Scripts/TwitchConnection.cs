@@ -15,28 +15,38 @@ public class TwitchConnection : MonoBehaviour
 
     private void Start()
     {
-        // To keep the Unity application active in the background, you can enable "Run In Background" in the player settings:
-        // Unity Editor --> Edit --> Project Settings --> Player --> Resolution and Presentation --> Resolution --> Run In Background
-        // This option seems to be enabled by default in more recent versions of Unity. An aditional, less recommended option is to set it in code:
-        Application.runInBackground = true;
+        try
+        {
 
-        //Create Credentials instance
-        ConnectionCredentials credentials = new ConnectionCredentials(Secrets.BOT_NAME, Secrets.BOT_ACCESS_TOKEN);
-        _client = new Client();
+            // To keep the Unity application active in the background, you can enable "Run In Background" in the player settings:
+            // Unity Editor --> Edit --> Project Settings --> Player --> Resolution and Presentation --> Resolution --> Run In Background
+            // This option seems to be enabled by default in more recent versions of Unity. An aditional, less recommended option is to set it in code:
+            Application.runInBackground = true;
+
+            //Create Credentials instance
+            ConnectionCredentials credentials = new ConnectionCredentials(Secrets.BOT_NAME, Secrets.BOT_ACCESS_TOKEN);
+            _client = new Client();
         
-        // Initialize the client with the credentials instance, and setting a default channel to connect to.
-        _client.Initialize(credentials, _channelToConnectTo);
+            // Initialize the client with the credentials instance, and setting a default channel to connect to.
+            _client.Initialize(credentials, _channelToConnectTo);
 
-        // Bind callbacks to events
-        _client.OnConnected += OnConnected;
-        _client.OnJoinedChannel += OnJoinedChannel;
-        _client.OnMessageReceived += OnMessageReceived;
-        _client.OnChatCommandReceived += OnChatCommandReceived;
-        _client.OnGiftedSubscription += OnGiftedSubscription;
-        _client.OnMessageSent += OnMessageSent;
+            // Bind callbacks to events
+            _client.OnConnected += OnConnected;
+            _client.OnJoinedChannel += OnJoinedChannel;
+            _client.OnMessageReceived += OnMessageReceived;
+            _client.OnChatCommandReceived += OnChatCommandReceived;
+            _client.OnGiftedSubscription += OnGiftedSubscription;
+            _client.OnMessageSent += OnMessageSent;
 
-        // Connect
-        _client.Connect();
+            // Connect
+            _client.Connect();
+        }
+        catch (Exception e)
+        {
+            AddDebugLine(e.ToString());
+
+            throw;
+        }
     }
 
     private void OnMessageSent(object sender, OnMessageSentArgs e)
