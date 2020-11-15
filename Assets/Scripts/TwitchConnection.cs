@@ -8,16 +8,15 @@ using UnityEngine;
 
 public class TwitchConnection : MonoBehaviour
 {
-    [SerializeField] 
-    private string _channelToConnectTo = "hellyeahplay";
+    [SerializeField] private string _channelToConnectTo = "hellyeahplay";
     [SerializeField] private TMP_InputField debug = default;
-    private Client _client;
+    [SerializeField] private string debugLines = default;
+    private TwitchClient _client = default;
 
     private void Start()
     {
         try
         {
-
             // To keep the Unity application active in the background, you can enable "Run In Background" in the player settings:
             // Unity Editor --> Edit --> Project Settings --> Player --> Resolution and Presentation --> Resolution --> Run In Background
             // This option seems to be enabled by default in more recent versions of Unity. An aditional, less recommended option is to set it in code:
@@ -25,8 +24,7 @@ public class TwitchConnection : MonoBehaviour
 
             //Create Credentials instance
             ConnectionCredentials credentials = new ConnectionCredentials(Secrets.BOT_NAME, Secrets.BOT_ACCESS_TOKEN);
-            _client = new Client();
-        
+            _client = new TwitchClient();
             // Initialize the client with the credentials instance, and setting a default channel to connect to.
             _client.Initialize(credentials, _channelToConnectTo);
 
@@ -56,7 +54,7 @@ public class TwitchConnection : MonoBehaviour
 
     private void OnGiftedSubscription(object sender, OnGiftedSubscriptionArgs e)
     {
-        Debug.Log(
+        AddDebugLine(
             $"Gift subscription recieve {e.GiftedSubscription.MsgParamRecipientUserName} from {e.GiftedSubscription.Id}");
 
         AddDebugLine($"{e.GiftedSubscription.Id} " +
@@ -66,21 +64,33 @@ public class TwitchConnection : MonoBehaviour
                      $"/ {e.GiftedSubscription.MsgParamRecipientUserName} " +
                      $"/ {e.GiftedSubscription.MsgParamRecipientDisplayName} " +
                      $"/ {e.GiftedSubscription.MsgParamSubPlan}");
-       }
+    }
 
     private void OnConnected(object sender, OnConnectedArgs e)
     {
-        Debug.Log($"The bot {e.BotUsername} succesfully connected to Twitch.");
-        AddDebugLine($"The bot {e.BotUsername} succesfully connected to Twitch.");
+        try
+        {
+            AddDebugLine($"The bot {e.BotUsername} succesfully connected to Twitch.");
 
-        if (string.IsNullOrWhiteSpace(e.AutoJoinChannel)) return;
-        AddDebugLine($"The bot will now attempt to automatically join the channel provided when the Initialize method was called: {e.AutoJoinChannel}");
+            if (string.IsNullOrWhiteSpace(e.AutoJoinChannel))
+            {
+                AddDebugLine(
+                    $"The bot will now attempt to automatically join the channel provided when the Initialize method was called: {e.AutoJoinChannel}");
+            }
+
+            _client.JoinChannel(_channelToConnectTo);
+        }
+        catch (Exception exception)
+        {
+            AddDebugLine(exception.ToString());
+
+            throw;
+        }
     }
 
     private void OnJoinedChannel(object sender, OnJoinedChannelArgs e)
     {
         AddDebugLine($"The bot created by @uurh just joined the channel: {e.Channel}");
-        Debug.Log($"The bot created by @uurh just joined the channel: {e.Channel}");
         //_client.SendMessage(e.Channel, $"The bot created by @uurh just joined the channel: {e.Channel}");
     }
 
@@ -108,18 +118,28 @@ public class TwitchConnection : MonoBehaviour
 
     private void AddDebugLine(string line)
     {
-        var bufferLine = $"\n[{DateTime.Now}] {line}";
-        debug.text += bufferLine;
+        var bufferLine = string.Empty;
+
+        if (!string.IsNullOrWhiteSpace(debugLines))
+            bufferLine += "\n";
+
+        bufferLine += $"[{DateTime.Now}] {line}";
+
+        debugLines += bufferLine;
+
+        Debug.Log(bufferLine);
     }
 
     private void Update()
     {
-        // Don't call the client send message on every Update,
-        // this is sample on how to call the client,
-        // not an example on how to code.
+        lock (debugLines)
+        {
+            debug.text = debugLines;
+        }
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
-           // _client.SendRaw(":uurha!<uurha>@<uurha>.tmi.twitch.tv PRIVMSG #hellyeahplay :/vips");
+            _client.SendMessage(_channelToConnectTo, "hi");
         }
     }
 }
