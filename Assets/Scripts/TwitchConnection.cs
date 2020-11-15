@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
 using TwitchLib.Client;
 using TwitchLib.Client.Events;
 using TwitchLib.Client.Models;
@@ -9,7 +10,7 @@ public class TwitchConnection : MonoBehaviour
 {
     [SerializeField] 
     private string _channelToConnectTo = "hellyeahplay";
-    [SerializeField] private TMP_InputField debug;
+    [SerializeField] private TMP_InputField debug = default;
     private Client _client;
 
     private void Start()
@@ -48,31 +49,27 @@ public class TwitchConnection : MonoBehaviour
         Debug.Log(
             $"Gift subscription recieve {e.GiftedSubscription.MsgParamRecipientUserName} from {e.GiftedSubscription.Id}");
 
-        debug.text +=
-            $"{e.GiftedSubscription.Id}" +
-            $" / {e.GiftedSubscription.Login} " +
-            $"/ {e.GiftedSubscription.DisplayName} " +
-            $"/ {e.GiftedSubscription.MsgParamRecipientId} " +
-            $"/ {e.GiftedSubscription.MsgParamRecipientUserName} " +
-            $"/ {e.GiftedSubscription.MsgParamRecipientDisplayName} " +
-            $"/ {e.GiftedSubscription.MsgParamSubPlan}";
+        AddDebugLine($"{e.GiftedSubscription.Id} " +
+                     $"/ {e.GiftedSubscription.Login} " +
+                     $"/ {e.GiftedSubscription.DisplayName} " +
+                     $"/ {e.GiftedSubscription.MsgParamRecipientId} " +
+                     $"/ {e.GiftedSubscription.MsgParamRecipientUserName} " +
+                     $"/ {e.GiftedSubscription.MsgParamRecipientDisplayName} " +
+                     $"/ {e.GiftedSubscription.MsgParamSubPlan}");
        }
 
     private void OnConnected(object sender, OnConnectedArgs e)
     {
         Debug.Log($"The bot {e.BotUsername} succesfully connected to Twitch.");
-        debug.text += $"The bot {e.BotUsername} succesfully connected to Twitch.";
+        AddDebugLine($"The bot {e.BotUsername} succesfully connected to Twitch.");
 
         if (string.IsNullOrWhiteSpace(e.AutoJoinChannel)) return;
-
-        Debug.Log(
-            $"The bot will now attempt to automatically join the channel provided when the Initialize method was called: {e.AutoJoinChannel}");
-        debug.text += $"The bot will now attempt to automatically join the channel provided when the Initialize method was called: {e.AutoJoinChannel}";
+        AddDebugLine($"The bot will now attempt to automatically join the channel provided when the Initialize method was called: {e.AutoJoinChannel}");
     }
 
     private void OnJoinedChannel(object sender, OnJoinedChannelArgs e)
     {
-        debug.text += $"The bot created by @uurh just joined the channel: {e.Channel}";
+        AddDebugLine($"The bot created by @uurh just joined the channel: {e.Channel}");
         Debug.Log($"The bot created by @uurh just joined the channel: {e.Channel}");
         //_client.SendMessage(e.Channel, $"The bot created by @uurh just joined the channel: {e.Channel}");
     }
@@ -97,6 +94,12 @@ public class TwitchConnection : MonoBehaviour
         // 		_client.SendMessage(e.Command.ChatMessage.Channel, $"Unknown chat command: {e.Command.CommandIdentifier}{e.Command.CommandText}");
         // 		break;
         // }
+    }
+
+    private void AddDebugLine(string line)
+    {
+        var bufferLine = $"\n[{DateTime.Now}] {line}";
+        debug.text += bufferLine;
     }
 
     private void Update()
