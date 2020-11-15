@@ -1,0 +1,80 @@
+root=true
+[*]
+charset=utf-8
+end_of_line=crlf
+trim_trailing_whitespace=false
+insert_final_newline=false
+indent_style=space
+indent_size=4 # A property with the same name was updated with a value 2 in a section [{.stylelintrc,.eslintrc,.babelrc,jest.config,*.uproject,*.json,*.bowerrc,*.jsb3,*.jsb2}]; with a value 2 in a section [{*.yml,*.yaml}]
+
+# Microsoft .NET properties
+csharp_new_line_before_members_in_object_initializers=false
+csharp_preferred_modifier_order=public, private, protected, internal, new, abstract, virtual, sealed, override, static, readonly, extern, unsafe, volatile, async:suggestion
+csharp_style_var_elsewhere=true:suggestion
+csharp_style_var_for_built_in_types=true:suggestion
+csharp_style_var_when_type_is_apparent=true:suggestion
+dotnet_style_parentheses_in_arithmetic_binary_operators=never_if_unnecessary:none
+dotnet_style_parentheses_in_other_binary_operators=never_if_unnecessary:none
+dotnet_style_parentheses_in_relational_binary_operators=never_if_unnecessary:none
+dotnet_style_predefined_type_for_locals_parameters_members=true:suggestion
+dotnet_style_predefined_type_for_member_access=true:suggestion
+dotnet_style_qualification_for_event=false:suggestion
+dotnet_style_qualification_for_field=false:suggestion
+dotnet_style_qualification_for_method=false:suggestion
+dotnet_style_qualification_for_property=false:suggestion
+dotnet_style_require_accessibility_modifiers=for_non_interface_members:suggestion
+
+# ReSharper properties
+resharper_align_multiple_declaration=true
+resharper_align_multline_type_parameter_constrains=true
+resharper_autodetect_indent_settings=true
+resharper_blank_lines_after_start_comment=0
+resharper_blank_lines_before_control_transfer_statements=1
+resharper_blank_lines_before_multiline_statements=1
+resharper_csharp_blank_lines_around_field=0
+resharper_csharp_keep_blank_lines_in_code=1
+resharper_csharp_keep_blank_lines_in_declarations=1
+resharper_enforce_line_ending_style=true
+resharper_force_attribute_style=join
+resharper_indent_nested_fixed_stmt=true
+resharper_indent_nested_foreach_stmt=true
+resharper_indent_nested_for_stmt=true
+resharper_indent_nested_lock_stmt=true
+resharper_indent_nested_usings_stmt=true
+resharper_indent_nested_while_stmt=true
+resharper_int_align_comments=true
+resharper_keep_existing_switch_expression_arrangement=false
+resharper_place_field_attribute_on_same_line=true
+resharper_place_method_attribute_on_same_line=if_owner_is_single_line
+resharper_place_simple_accessorholder_on_single_line=true
+resharper_place_simple_switch_expression_on_single_line=true
+resharper_place_type_attribute_on_same_line=if_owner_is_single_line
+resharper_use_indent_from_vs=false
+
+# ReSharper inspection severities
+resharper_arrange_redundant_parentheses_highlighting=hint
+resharper_arrange_this_qualifier_highlighting=hint
+resharper_arrange_type_member_modifiers_highlighting=hint
+resharper_arrange_type_modifiers_highlighting=hint
+resharper_built_in_type_reference_style_for_member_access_highlighting=hint
+resharper_built_in_type_reference_style_highlighting=hint
+resharper_redundant_base_qualifier_highlighting=warning
+resharper_suggest_var_or_type_built_in_types_highlighting=hint
+resharper_suggest_var_or_type_elsewhere_highlighting=hint
+resharper_suggest_var_or_type_simple_types_highlighting=hint
+resharper_web_config_module_not_resolved_highlighting=warning
+resharper_web_config_type_not_resolved_highlighting=warning
+resharper_web_config_wrong_module_highlighting=warning
+
+[{.stylelintrc,.eslintrc,.babelrc,jest.config,*.uproject,*.json,*.bowerrc,*.jsb3,*.jsb2}]
+indent_style=space
+indent_size=2 # A property with the same name was updated with a value 4 in a section [*]; with a value 4 in a section [*.{appxmanifest,asax,ascx,aspx,build,cs,cshtml,dtd,fs,fsi,fsscript,fsx,master,ml,mli,nuspec,razor,resw,resx,skin,vb,xaml,xamlx,xoml,xsd}]
+
+[{*.yml,*.yaml}]
+indent_style=space
+indent_size=2 # A property with the same name was updated with a value 4 in a section [*]; with a value 4 in a section [*.{appxmanifest,asax,ascx,aspx,build,cs,cshtml,dtd,fs,fsi,fsscript,fsx,master,ml,mli,nuspec,razor,resw,resx,skin,vb,xaml,xamlx,xoml,xsd}]
+
+[*.{appxmanifest,asax,ascx,aspx,build,cs,cshtml,dtd,fs,fsi,fsscript,fsx,master,ml,mli,nuspec,razor,resw,resx,skin,vb,xaml,xamlx,xoml,xsd}]
+indent_style=space
+indent_size=4 # A property with the same name was updated with a value 2 in a section [{.stylelintrc,.eslintrc,.babelrc,jest.config,*.uproject,*.json,*.bowerrc,*.jsb3,*.jsb2}]; with a value 2 in a section [{*.yml,*.yaml}]
+tab_width=4
